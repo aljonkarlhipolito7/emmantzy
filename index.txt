@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#cfe5f7">
+  <title>Our Story — A Journey Through Every Moment</title>
+
+  <!-- Fonts (fall back to Georgia / system fonts if offline) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-screen="lock">
+
+  <!-- ===== Icon sprite ===== -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-heart" viewBox="0 0 24 24"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></symbol>
+      <symbol id="i-next" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-prev" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></symbol>
+      <symbol id="i-pause" viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></symbol>
+      <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9.5v5h3.5l4.5 4v-13l-4.5 4z" fill="currentColor"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+      <symbol id="i-muted" viewBox="0 0 24 24"><path d="M4 9.5v5h3.5l4.5 4v-13l-4.5 4z" fill="currentColor"/><path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+      <symbol id="i-back" viewBox="0 0 24 24"><path d="M9 6h10a1.5 1.5 0 0 1 1.5 1.5v9A1.5 1.5 0 0 1 19 18H9l-5.5-6z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12.5 9.5l4 5M16.5 9.5l-4 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3.5" y="6" width="17" height="12" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- ===== Ambient background (all pages) ===== -->
+  <div id="atmosphere" aria-hidden="true">
+    <div class="atm-glow atm-glow-a"></div>
+    <div class="atm-glow atm-glow-b"></div>
+    <div id="stars"></div>
+    <div id="clouds"></div>
+    <div id="particles"></div>
+    <div id="hearts"></div>
+    <div class="atm-grain"></div>
+  </div>
+
+  <!-- ===== Heart transition (used sparingly) ===== -->
+  <div id="transition" aria-hidden="true">
+    <div class="tr-mark"><svg class="ic"><use href="#i-heart"/></svg></div>
+  </div>
+
+  <!-- ===== Music ===== -->
+  <div id="musicPlayer" class="music" role="group" aria-label="Music controls">
+    <button id="musicToggle" class="music-btn" type="button" aria-label="Play music" aria-pressed="false">
+      <svg class="ic ic-play"><use href="#i-play"/></svg>
+      <svg class="ic ic-pause"><use href="#i-pause"/></svg>
+    </button>
+    <button id="musicMute" class="music-btn" type="button" aria-label="Mute music" aria-pressed="false">
+      <svg class="ic ic-sound"><use href="#i-sound"/></svg>
+      <svg class="ic ic-muted"><use href="#i-muted"/></svg>
+    </button>
+    <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <span id="musicLabel" role="status">Our Song</span>
+  </div>
+  <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
+
+  <!-- ============================================================
+       0. PASSWORD
+       ============================================================ -->
+  <section id="lock" class="screen active" aria-label="Password">
+    <div class="stage">
+      <div id="lockCard" class="lock-card">
+        <p class="label rv" style="--i:0">This is just for you</p>
+        <h1 class="lock-title rv" style="--i:1">Enter Our <em>Code</em></h1>
+        <p class="lock-sub rv" style="--i:2">Type the 6-digit password to open our story.</p>
+
+        <div id="pinDots" class="pin rv" style="--i:3" role="img" aria-label="0 of 6 digits entered">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <p id="pinError" class="pin-msg" aria-live="polite"></p>
+
+        <div class="keypad rv" style="--i:4" role="group" aria-label="Keypad">
+          <button type="button" class="key" data-key="1">1</button>
+          <button type="button" class="key" data-key="2">2</button>
+          <button type="button" class="key" data-key="3">3</button>
+          <button type="button" class="key" data-key="4">4</button>
+          <button type="button" class="key" data-key="5">5</button>
+          <button type="button" class="key" data-key="6">6</button>
+          <button type="button" class="key" data-key="7">7</button>
+          <button type="button" class="key" data-key="8">8</button>
+          <button type="button" class="key" data-key="9">9</button>
+          <button type="button" class="key key-aux" data-key="clear" aria-label="Clear all digits">Clear</button>
+          <button type="button" class="key" data-key="0">0</button>
+          <button type="button" class="key key-aux" data-key="del" aria-label="Delete last digit"><svg class="ic"><use href="#i-back"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       1. COVER
+       ============================================================ -->
+  <section id="opening" class="screen" aria-label="Introduction">
+    <div class="stage">
+      <div class="cp cp-left" aria-hidden="true" style="--r:-7deg"><img data-memory="0" alt=""></div>
+      <div class="cp cp-right" aria-hidden="true" style="--r:6deg"><img data-memory="9" alt=""></div>
+
+      <div class="cover" id="openingInner">
+        <p class="label rv" style="--i:0">A little something for you</p>
+        <h1 class="cover-title rv" style="--i:1" aria-label="Our Story">
+          <span class="t-our" aria-hidden="true">Our</span>
+          <span class="t-story" aria-hidden="true">Story</span>
+        </h1>
+        <p class="cover-sub rv" style="--i:2">A Journey Through Every Moment</p>
+        <span class="rule rv" style="--i:3" aria-hidden="true"><svg class="ic"><use href="#i-heart"/></svg></span>
+        <p class="cover-lead rv" style="--i:4">Ten beautiful memories, countless little moments, and one love story that means everything to me.</p>
+        <p class="cover-extra rv" style="--i:5">Every picture holds a memory. Every memory holds a story. And every story begins with you.</p>
+        <button id="beginBtn" class="btn btn-primary rv" style="--i:6" type="button">Begin our journey <svg class="ic"><use href="#i-next"/></svg></button>
+        <p class="cover-note hand rv" style="--i:7" aria-hidden="true">with love</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       2. CHAPTERS
+       ============================================================ -->
+  <section id="chapter" class="screen" aria-label="Memories">
+    <div class="chapter-screen">
+      <article id="chapterContent" class="chapter" data-layout="a" aria-live="polite">
+
+        <figure class="ch-photo">
+          <div class="mount">
+            <span class="tape tape-l" aria-hidden="true"></span>
+            <span class="tape tape-r" aria-hidden="true"></span>
+            <img id="chapterImg" alt="Memory photograph">
+            <figcaption id="chapterNote" class="hand"></figcaption>
+          </div>
+        </figure>
+
+        <div class="ch-text">
+          <header class="ch-head">
+            <div class="ch-top">
+              <span id="chapterBigNo" class="big-no" aria-hidden="true">01</span>
+              <p id="chapterNumber" class="label">Chapter 01 / 10</p>
+            </div>
+            <h2 id="chapterTitle" class="ch-title"></h2>
+            <p id="chapterDate" class="ch-date"></p>
+          </header>
+
+          <section class="story">
+            <h3 class="mini">The story behind this moment</h3>
+            <p id="chapterStory"></p>
+          </section>
+
+          <aside class="note">
+            <h3 class="mini">A little message for you</h3>
+            <p id="chapterMessage"></p>
+          </aside>
+        </div>
+      </article>
+
+      <nav class="book-nav" aria-label="Memory navigation">
+        <button id="prevBtn" class="btn btn-ghost" type="button" aria-label="Previous memory">
+          <svg class="ic"><use href="#i-prev"/></svg><span class="lbl">Previous</span>
+        </button>
+        <div class="book-progress">
+          <p id="progressText" class="progress-text" aria-live="polite">Your journey — 01 of 10</p>
+          <div class="track" aria-hidden="true"><div id="progressBar" class="fill"></div></div>
+        </div>
+        <button id="nextBtn" class="btn btn-primary" type="button" aria-label="Next memory">
+          <span class="lbl">Next</span><svg class="ic"><use href="#i-next"/></svg>
+        </button>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       3. GALLERY
+       ============================================================ -->
+  <section id="overview" class="screen" aria-label="All memories">
+    <div class="ov-wrap">
+      <header class="ov-head">
+        <p class="label rv" style="--i:0">Our memories</p>
+        <h2 class="ov-title rv" style="--i:1">Every Moment, <em>A Memory</em></h2>
+        <p class="ov-sub rv" style="--i:2">Here are the little pieces of our story that I wish I could relive over and over again.</p>
+      </header>
+      <ul id="galleryGrid" class="album"></ul>
+      <div class="ov-actions">
+        <button id="toLetterBtn" class="btn btn-primary" type="button">Open my letter to you <svg class="ic"><use href="#i-mail"/></svg></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       4. MEMORY VIEWER
+       ============================================================ -->
+  <div id="viewer" class="viewer" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="viewerTitle">
+    <div class="viewer-backdrop" id="viewerBackdrop"></div>
+    <div class="viewer-sheet" id="viewerPanel">
+      <button id="viewerClose" class="viewer-close" type="button" aria-label="Close memory"><svg class="ic"><use href="#i-close"/></svg></button>
+      <div class="viewer-body" id="viewerBody">
+        <figure class="viewer-photo">
+          <div class="mount"><img id="viewerImg" alt="Memory photograph"></div>
+        </figure>
+        <div class="viewer-text">
+          <p id="viewerChapter" class="label"></p>
+          <h3 id="viewerTitle" class="ch-title"></h3>
+          <p id="viewerDate" class="ch-date"></p>
+          <h4 class="mini">The story behind this moment</h4>
+          <p id="viewerStory" class="v-story"></p>
+          <h4 class="mini">A little message for you</h4>
+          <p id="viewerMessage" class="v-note"></p>
+        </div>
+      </div>
+      <div class="viewer-controls">
+        <button id="viewerPrev" class="btn btn-ghost" type="button" aria-label="Previous memory"><svg class="ic"><use href="#i-prev"/></svg><span class="lbl">Previous</span></button>
+        <button id="viewerBack" class="btn btn-ghost" type="button">All memories</button>
+        <button id="viewerNext" class="btn btn-primary" type="button" aria-label="Next memory"><span class="lbl">Next</span><svg class="ic"><use href="#i-next"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       5. LOVE LETTER
+       ============================================================ -->
+  <section id="letter" class="screen" aria-label="Love letter">
+    <div class="letter-wrap">
+      <p id="letterLabel" class="label rv" style="--i:0">One last thing</p>
+
+      <div id="envelope" class="envelope rv" style="--i:1" role="button" tabindex="0" aria-label="Open the love letter">
+        <div class="env-back"></div>
+        <div class="env-card" aria-hidden="true"><span class="hand">for you</span></div>
+        <div class="env-pocket" aria-hidden="true"><span class="pk pk-l"></span><span class="pk pk-r"></span><span class="pk pk-b"></span></div>
+        <div class="env-flap" aria-hidden="true"></div>
+        <div class="env-seal" aria-hidden="true"><svg class="ic"><use href="#i-heart"/></svg></div>
+      </div>
+      <p id="letterHint" class="letter-hint hand rv" style="--i:2">Tap the envelope to open it &#9825;</p>
+
+      <article id="letterPaper" class="letter-sheet" tabindex="-1" aria-label="Love letter">
+        <span class="tape tape-top" aria-hidden="true"></span>
+        <div class="sheet-inner">
+          <div id="letterText" class="letter-text"></div>
+          <div class="letter-end" aria-hidden="true"><svg class="ic"><use href="#i-heart"/></svg></div>
+        </div>
+      </article>
+
+      <button id="replayBtn" class="btn btn-primary replay-btn" type="button">Replay our love story</button>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
